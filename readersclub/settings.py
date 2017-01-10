@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app',
+    'registration',
 ]
 
 MIDDLEWARE = [
@@ -146,3 +147,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR,  'media')
 CKEDITOR_JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js'
 
 CKEDITOR_UPLOAD_PATH = 'uploads/'
+
+AUTH_USER_MODEL = 'registration.Account'

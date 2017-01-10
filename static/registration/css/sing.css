@@ -1,0 +1,126 @@
+body{
+	padding:0;
+    background-image: url(http://www.thereadersclub.com/templates/images/banner.jpg);
+	background-color: #444;
+	background-repeat:no-repeat;
+	background-size: cover;
+	height: 100%;
+       
+}
+.no-padding{
+padding: 0;
+}
+.form-wrapper{
+max-width: 767px;
+background: rgba(157, 181, 207, 0.65);
+margin: 0 auto;
+position: relative;
+overflow: hidden;
+padding: 40px 0;
+}
+.form-wrapper:after{
+content: '';
+display: block;
+position: absolute;
+width: 200%;
+height: 75%;
+left: -7%;
+bottom: 0;
+z-index: 1;
+background: rgba(48, 105, 164, 0.48);
+transform:rotate(-30deg);
+}
+@media(max-width: 767px){
+.form-wrapper:after{
+height: 40%;
+left: -7%;
+}
+}
+@media(max-width: 540px){
+.form-wrapper:after{
+height: 25%;
+}
+}
+@media(max-width: 340px){
+.form-wrapper:after{
+height: 20%;
+}
+}
+.form-wrapper .my-form{
+width: 80%;
+overflow: auto;
+margin: 0 auto;
+background: rgba(127, 162, 218, 0.68);
+position: relative;
+z-index: 9;
+box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+}
+.my-form .info{
+padding: 15px;
+height: 100%;
+}
+.my-form .info .carousel-caption{
+margin: 0;
+padding: 0;
+bottom: 50px;
+right: 0;
+left: 0;
+}
+.my-form .carousel-indicators .active{
+background: rgba(0, 0, 0, 0.5);
+border-color: rgba(0, 0, 0, 0.5)
+}
+.my-form .item{
+padding: 60px 0;
+min-height: 300px;
+}
+.my-form .form-bg{
+background: #fff;
+}
+.main-form .nav > li{
+width: 50%;
+}
+.main-form .nav-tabs > li > a{
+border-radius: 0;
+display: inline-block;
+width: 100%;
+text-align: center;
+outline: 0;
+text-transform: uppercase;
+color: #fc80b2;
+font-weight: 600;
+font-size: 13px;
+}
+.main-form .nav-tabs > li > a:hover{
+color: #fc80b2;
+}
+.main-form .form-control{
+margin-top: 15px;
+height: 50px;
+border-radius: 0;
+box-shadow: none;
+border:1px solid #f0f0f0;
+}
+.main-form .form-control:focus{
+border-color: #fc80b2;
+}
+.main-form .checkbox{
+margin-left: 20px;
+color: #999;
+}
+.main-form .checkbox a{
+color: #fc80b2;
+}
+.main-form .btn-submit{
+display: block;
+background: #fc80b2;
+color: #fff;
+border-radius: 0;
+width: 100%;
+text-transform: uppercase;
+margin-top: 15px;
+padding: 12px;
+}
+.main-form .tab-content{
+padding: 60px 0;
+}

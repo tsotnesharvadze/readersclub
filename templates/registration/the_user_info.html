@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+
+	{% block head %}
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+	{% endblock head %}
+
+{% block content %}
+<ul class="ul">
+	<li >სახელი : {{the_user.first_name}}</li>
+	<li >გვარი : {{the_user.last_name}}</li>
+	<li >ემაილი : {{the_user.email}}</li>
+	<li >მობ.ნომერი : {{the_user.phone}}</li>
+	<li >პირადი ნომერი : {{the_user.personal_number}}</li>
+
+</ul>
+
+<a type="button" class="button button1"  href="/activate/{{the_user.id}}">{% trans 'აქტივაცია' %}</a>
+
+
+
+
+
+{% endblock content %}

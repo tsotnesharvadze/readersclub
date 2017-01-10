@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+
+{% block title %}
+{% trans 'კეთილი იყოს თქვენი მობრძანება' %}
+{% endblock title %}
+
+{% block head %}
+{% load staticfiles%}
+	<link rel="stylesheet" type="text/css" href="{% static 'registration/css/sing.css' %}">
+	<script  type="text/javascript" src="{% static 'myapp/js/script.js' %}"></script>
+{% endblock head %}
+
+
+{% block content %}
+
+
+
+<div class="container">
+<div class="row">
+<div class="col-sm-12">
+<div class="form-wrapper">
+<div class="my-form">
+<div class="col-sm-6 no-padding">
+<div class="info">
+<div id="carousel-id" class="carousel slide" data-ride="carousel">
+<ol class="carousel-indicators">
+<li data-target="#carousel-id" data-slide-to="0" class=""></li>
+<li data-target="#carousel-id" data-slide-to="1" class=""></li>
+<li data-target="#carousel-id" data-slide-to="2" class="active"></li>
+</ol>
+<div class="carousel-inner">
+<div class="item">
+<img src="http://pngimg.com/upload/book_PNG2113.png" class="img-responsive center-block" alt="">
+<div class="container">
+<div class="carousel-caption">
+<p>{% trans '' %}</p>
+
+</div>
+</div>
+</div>
+<div class="item">
+<img src="http://www.pngpix.com/wp-content/uploads/2016/03/Stack-Of-Books-PNG-Image.png" class="img-responsive center-block" alt="">
+<div class="container">
+<div class="carousel-caption">
+<p>{% trans '' %}</p>
+
+</div>
+</div>
+</div>
+<div class="item active">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Books.svg/2000px-Books.svg.png" class="img-responsive center-block" alt="">
+<div class="container">
+<div class="carousel-caption">
+<p>{% trans '' %}</p>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-sm-6 form-bg">
+<div class="main-form">
+<div role="tabpanel">
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" role="tablist">
+<li role="presentation" class="active">
+<a href="#login" aria-controls="login" role="tab" data-toggle="tab">{% trans 'შესვლა' %}</a>
+</li>
+<li role="presentation">
+<a href="#signup" aria-controls="signup" role="tab" data-toggle="tab">{% trans 'რეგისტრაცია' %}</a>
+</li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+<div role="tabpanel" class="tab-pane active" id="login">
+<form action="" method="POST" accept-charset="utf-8">{% csrf_token %}
+{{formin.as_p}}
+<div class="checkbox"><a href="/email_send_for_new_password/" title="">{% trans 'დაგავიწყდათ პაროლი ?' %}</a></div>
+<input class="btn btn-submit" type="submit" name="singin" value="{% trans 'შესვლა' %}">
+</form>
+</div>
+
+
+<div role="tabpanel" class="tab-pane" id="signup">
+<form action="" method="POST" accept-charset="utf-8">{% csrf_token %}
+{{formup.as_p}}
+{% comment %}<div class="checkbox"><input type="checkbox" name="" value=""><a href="" title="">Send me Newsletter</a></div>{% endcomment %}
+<input class="btn btn-submit" type="submit" name="singup" value="{% trans 'რეგისტრაცია' %}">
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+{% endblock content %}
+

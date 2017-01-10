@@ -1,0 +1,117 @@
+{% load i18n static %}
+
+<nav class="navbar navbar-default" role="navigation" style="height: 52px">
+<div class="navbar-header">
+	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+	<span class="sr-only">Toggle navigation</span>
+	<span class="icon-bar"></span>
+	<span class="icon-bar"></span>
+	<span class="icon-bar"></span>
+	</button>
+
+	<ul class="nav navbar-nav">
+
+
+		{% if user.is_authenticated %}
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.email }}<b class="caret"></b></a>
+				<ul class="dropdown-menu">					
+					{% comment %}<li><a href="#">{% trans "პროფილი" %}</a></li>
+					<li class="divider"></li>{% endcomment %}
+					<li><a href="{% url 'registration:profile' user.id %}">{% trans "პირადი გვერდი" %}</a></li>
+					<li class="divider"></li>
+					{% comment %}<li><a href="#">{% trans "პროფილის განახლება" %}</a></li>{% endcomment %}
+					<li><a href="">{% trans "პაროლის შეცვლა" %}</a></li>
+					<li class="divider"></li>
+					<li><a href="/log_out">{% trans "გამოსვლა" %}</a></li>
+				</ul>
+			</li>
+		{% else %}
+			<li><a href="{% url 'registration:sing' %}">შესვლა</a></li>
+		{% endif %}
+	</ul>
+	
+</div>
+
+
+<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+<!-- 	{% if user.is_authenticated %}
+	<div class="col-sm-3 col-md-3">
+		<form class="navbar-form" role="search">
+			<div class="input-group">
+				{% csrf_token %}
+				<input class="form-control input-sm" type="text" style="height: 34px"  placeholder={% trans 'ძიება' %} id='search' name='search' >
+				<div class="input-group-btn">
+					<button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+				</div>
+			</div>
+			<div class="" id="remote">
+			</div>			
+		</form>
+	</div>
+	{% endif %} -->
+
+
+
+		
+	<form id="lang_list" action="/i18n/setlang/" method="POST" class="navbar-form navbar-right">
+		{% csrf_token %}
+		<select name="language" class="selectpicker input-group" data-show-subtext="true" onchange="lang_changed()">
+			{% get_current_language as LANGUAGE_CODE %}
+			{% get_available_languages as LANGUAGES %}
+			{% get_language_info_list for LANGUAGES as languages %}
+			{% for language in languages %}
+			<option style="margin: 3px; margin-top: 0; outline: none;" value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected="selected" {% endif %}>
+				{{ language.name_local }} ({{ language.code }})
+			</option>
+			{% endfor %}
+		</select>
+	</form>
+
+</div>
+</nav>
+
+<script type="text/javascript">
+	$('#search').keyup(function(){
+		$.ajax({
+			url: '/helpdesk/search/',
+			type: 'POST',
+			data: {
+				search_text:$('#search').val(),
+				csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+			},
+			success:function(data) {
+				var children = $( "[sadzebni=nagavi]");
+				$.each(children, function(i, element){
+					$(element).hide();
+				});
+				$('#remote').append(data);
+				if ($('#search').val()==''){
+					$( "[sadzebni=nagavi]").hide();
+				}
+			}
+		});
+	});
+
+
+
+</script>
+
+{% comment %}<style type="text/css">
+
+	.ui-menu {		
+		border: 1px solid rgba(0,0,0,.15);
+		border-radius: 4px;
+		background-color: #fff;
+		box-shadow: 0 6px 12px rgba(0,0,0,.175);
+		height: 100px;
+		overflow: auto;
+	}
+	.ui-menu-item {
+		font-family: 'Helvetica';
+		font-size: 14px;
+	}
+	.ui-helper-hidden-accessible {
+		display: none;
+	}
+</style>{% endcomment %}
