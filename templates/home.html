@@ -1,0 +1,225 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %} {% trans 'მკითხველთა კლუბი' %} {% endblock title %}
+
+    {% block head %}
+    {% load static %}
+    {% endblock head %}
+
+
+
+
+
+{% block content %}
+
+
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="home.html"><img src="{% static 'images/logo_readersclub.png' %}"></a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="home.html">Home</a>
+                    </li>
+                    <li>
+                        <a href=".html">კატეგორიები</a>
+                    </li>
+                    <li>
+                        <a href="about.html">ჩვენს შესახებ</a>
+                    </li>
+                    <li>
+                        <a data-toggle="modal" data-target="#myModal">რეგისტრაცია/ავტორიზაცია</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Header Carousel -->
+    <header id="myCarousel" class="carousel slide">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner">
+            {% for slide_img in slide_imgs %}
+            {% if forloop.counter == 1 %}
+            <div class="item active">
+            {% else %}
+            <div class="item">
+            {% endif %}
+                <img class="fill" src="{{  slide_img.img.url }}">
+                <div class="carousel-caption">
+                    <h2>{{slide_img.title}}</h2>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Controls -->
+        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+            <span class="icon-prev"></span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" data-slide="next">
+            <span class="icon-next"></span>
+        </a>
+    </header>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <!-- Marketing Icons Section -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header text-center">
+                    {% trans 'წიგნები' %}
+                </h1>
+            </div>
+        </div>
+        {% for book in books %}
+
+        {% if forloop.counter|add:"-1"|divisibleby:4 %}
+        <div class="row">
+        {% endif %}
+            <div class="col-md-3">
+              
+                   <img src="{{book.image.url}}" class="book_img">
+            
+                <div class="col-lg-12">
+                    <h4>{{book.title}}</h4></div>
+                <div class="col-md-2"><strike>{{book.retail_price}}₾</strike></div>
+                <div class="col-md-2">
+                    <p>{{ book.catalog_price}}₾</p>
+                </div>
+                <div class="col-md-5">
+                    <button type="button" class="btn btn-info btn-sm"><a href="#">{% trans 'დეტალურად' %}</a></button>
+                </div>
+            </div>
+        {% if forloop.counter|divisibleby:4 %}
+        </div>
+        <br>
+        {% endif %}
+        {% endfor %}
+        {% if not books|length|divisibleby:4 %}
+        </div>
+        <br>
+        {% endif %}
+
+        <hr>
+
+        <!-- Call to Action Section -->
+        <div class="well">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias, expedita, saepe, vero rerum deleniti beatae veniam harum neque nemo praesentium cum alias asperiores commodi.</p>
+                </div>
+                <div class="col-md-6">
+                    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">{% trans 'გაიარეთ ავტორიზაცია ან დარეგისტრირდით' %}</button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <section id="forms">
+                                        <ul class="tab">
+                                            <li><a href="javascript:void(0)" class="tablinks active" onclick="openCity(event, 'registration')">{% trans 'რეგისტრაცია' %}</a></li>
+                                            <li><a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'login')">შესვლა</a></li>
+
+                                            <div id="registration" class="tabcontent" style="display:block;">
+                                                <br>
+                                                <br>
+                                                <br>
+                                                <form  action="{% url 'registration:sing' %}" method="POST">{% csrf_token %}
+                                                    {{form.as_p}}
+                                                    <button type="submit" name='singup' class="btn btn-primary">რეგისტრაცია</button>
+                                                </form>
+                                            </div>
+                                            <div id="login" class="tabcontent">
+                                                <br>
+                                                <br>
+                                                <br>
+                                                <form action="" method="POST">
+
+                                                    <div class="form-group">
+                                                        <label for="inputEmail3" class="col-sm-2 col-form-label">ელ.ფოსტა</label>
+                                                        <div class="col-sm-10">
+                                                            <input type="email" class="form-control" id="inputEmail3" placeholder="შეიყვანეთ ელ.ფოსტა">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="inputPassword3" class="col-sm-2 col-form-label">პაროლი</label>
+                                                        <div class="col-sm-10">
+                                                            <input type="password" class="form-control" id="inputPassword3" placeholder="შეიყვანეთ პაროლი">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="offset-sm-2 col-sm-10">
+                                                            <button type="submit" name='sing' class="btn btn-primary">შესვლა</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+
+                                        </ul>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <p>Copyright &copy; Palitra Media Holding 2017</p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- /.container -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Script to Activate the Carousel -->
+    <script>
+        $('.carousel').carousel({
+            interval: 5000 //changes the speed
+        })
+    </script>
+   
+{% endblock content %}

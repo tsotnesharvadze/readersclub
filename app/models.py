@@ -24,12 +24,14 @@ class CategoryModel(AbsTime):
 class BookModel(AbsTime):
 	title = models.CharField(_('სათაური'), max_length=200,  default='')
 	description = RichTextField(_('აღწერა'), default='')
-	image=models.FileField(verbose_name=_("სურათი"),upload_to='imgs', null=True)
+	image=models.FileField(verbose_name=_("სურათი"),upload_to='books_img/', null=True)
 	publisher=models.CharField(verbose_name=_("გამომცემლობა"),max_length=200,null=True)
 	cover=models.CharField(verbose_name=_("ყდა"),max_length=200,null=True)
 	page = models.IntegerField(_('გვერდი'), default=1)
 	retail_price = models.IntegerField(_('საცალო ფასი'), default=1)
 	catalog_price = models.IntegerField(_('კატალოგის ფასი'), default=1)
+
+	# price = models.DecimalField(max_digits=6, decimal_places=2)
 	
 	def __str__(self):
 		return self.title
@@ -39,6 +41,20 @@ class BookModel(AbsTime):
 	class Meta:
 		verbose_name = _('წიგნი')
 		verbose_name_plural = _('წიგნები')
+
+
+class SlideModel(AbsTime):
+	img = models.ImageField(verbose_name=_("სურათი"),upload_to='slideshow_img/')
+	title = models.CharField(_('სათაური'), max_length=200, null= True,  default='')
+
+	def __str__(self):
+		return self.img.url
+	class Meta:
+		verbose_name = _('სლაიდის სურათი')
+		verbose_name_plural = _('სლაიდის სურათები')
+
+
+
 
 
 @receiver(post_save, sender=CategoryModel)

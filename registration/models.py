@@ -33,10 +33,15 @@ class AccountManager(BaseUserManager):
 
 
 
+
 class Account(AbstractBaseUser, PermissionsMixin):
 
 
-
+    ASC = (
+    ("0", _("-----")),
+    ("1", _("მამრობითი")),
+    ("2", _("მდედრობითი")),
+    )
     first_name = models.CharField(verbose_name=_("სახელი"),max_length=40, blank=True)
     last_name = models.CharField(verbose_name=_("გვარი"),max_length=40, blank=True)
     email = models.EmailField(verbose_name=_("ემაილი"),unique=True)
@@ -52,7 +57,7 @@ class Account(AbstractBaseUser, PermissionsMixin):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-
+    sex = models.CharField(_("სქესი"), max_length=1, default='0', choices=ASC)
     # username = models.CharField(verbose_name=_("მეტსახელი"),max_length=40, unique=True)
     # tagline = models.CharField(max_length=140, blank=True)    
     # avatar=models.ImageField(verbose_name=_("სურათი"),upload_to='myapp',default='myapp/palitra-media.jpg')

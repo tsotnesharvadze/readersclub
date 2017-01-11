@@ -47,7 +47,10 @@ class UserUpForm(forms.ModelForm):
  		'placeholder' : _('პირადი ნომერი'),
  		'name' : 'personal_number',
  		}), label=_("პირადი ნომერი"), required=True)
-
+	sex = forms.ChoiceField(widget=forms.Select(attrs={
+            'id' : 'sex',
+            'class' : 'dropdown-select form-control'
+        }), label=_('სქესი'), choices=Account.ASC)
 	def clean_confpassword(self):
 		# cleaned_data = super(UserUpForm, self).clean()
 		password = self.cleaned_data['password']
@@ -58,7 +61,7 @@ class UserUpForm(forms.ModelForm):
 
 	class Meta:
 		model=Account
-		fields=['first_name','last_name','email','phone','personal_number','password','confpassword','rules']
+		fields=['first_name','last_name','email','phone','personal_number','password','confpassword','sex','rules']
 
 class UserInForm(forms.Form):
 	email=forms.CharField(max_length=50 ,widget=forms.EmailInput(attrs={

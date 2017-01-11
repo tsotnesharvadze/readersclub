@@ -1,0 +1,13 @@
+.book_img{
+	width: 200px;
+	height: 300px;
+}
+.carousel-inner .item
+{
+	height: 306px !important;
+}
+
+.carousel-inner .item  img
+{
+	height: 100%;
+}
