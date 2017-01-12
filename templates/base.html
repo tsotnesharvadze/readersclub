@@ -41,7 +41,7 @@
 
     <script src="{% static 'js/interactive.js' %}"></script>
 
-    <link rel="stylesheet" href="{% static 'font-larisome/css/font-larisome.min.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'font-larisome/css/font-larisome.min.css' %}"> -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 	{% block head %}
 	{% endblock head %}
@@ -55,8 +55,8 @@
 
 
 <body>
+{% include 'nav_bar.html' %}
 
-{% include "navbar.html" %}
 
 
 {% block content %}
@@ -64,11 +64,18 @@
 
 
 {% endblock content %}
-</div>
 
 
 
 
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <p>Copyright &copy; Palitra Media Holding 2017</p>
+                </div>
+            </div>
+        </footer>
 </body>
 
 

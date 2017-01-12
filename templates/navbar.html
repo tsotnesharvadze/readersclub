@@ -23,11 +23,11 @@
 					{% comment %}<li><a href="#">{% trans "პროფილის განახლება" %}</a></li>{% endcomment %}
 					<li><a href="">{% trans "პაროლის შეცვლა" %}</a></li>
 					<li class="divider"></li>
-					<li><a href="/log_out">{% trans "გამოსვლა" %}</a></li>
+					<li><a href="{% url 'registration:log_out' %}">{% trans "გამოსვლა" %}</a></li>
 				</ul>
 			</li>
 		{% else %}
-			<li><a href="{% url 'registration:sing' %}">შესვლა</a></li>
+			<li><a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'login')" >შესვლა</a></li>
 		{% endif %}
 	</ul>
 	

@@ -11,3 +11,39 @@
 {
 	height: 100%;
 }
+
+#logo_img
+{
+    margin: -8px -48px;
+}
+
+
+
+.errorlist
+{
+    position: absolute;
+    margin: 0px 48px;
+}
+
+.bag-left {
+    background-color: #F2F4F9 !important;
+    border-radius: 10px;
+    position: fixed !important;
+    left: 720px;
+    padding: 5px;
+
+}
+
+.products-bag-left {
+    position: relative;
+    left: 20px;
+}
+
+.products-right {
+    border-radius: 7px;
+    border: 1px solid #F2F4F9;
+    padding: 5px;
+}
+.test2{
+    position: absolute;
+}

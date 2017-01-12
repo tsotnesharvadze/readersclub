@@ -11,20 +11,20 @@ from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from .models import Account
 from django.views.generic import View
-
+from django.http.response import Http404
+from app.models import SlideModel , BookModel
 
 
 def log_out(request):
 	logout(request)
-	return redirect("registration:sing")
+	return redirect("app:index")
 
 def sing(request):
-	formin = UserInForm()
-	formup = UserUpForm()
+	# formin = UserInForm()
+	# formup = UserUpForm()
 	if request.method=="POST":
 		if 'singin' in request.POST:
 			formin = UserInForm(request.POST or None)
-			print("---SIGN IP")
 			if formin.is_valid():
 				email=formin.cleaned_data['email']
 				password=formin.cleaned_data['password']
@@ -33,19 +33,27 @@ def sing(request):
 					if user.is_active:
 						login(request,user)
 						return redirect("app:index")
-				try:
-					user=Account.objects.get(email=email)
-				except:
-					return HttpResponse(_('გთხოვთ სწორედ შეავსოთ ველები'))
+				# else:
+				# 	formin.add_error(None,_('პაროლი ან ემაილი არასწორია'))
+				# try:
+				# 	user=Account.objects.get(email=email)
+				# except:
+				# 	return HttpResponse(_('იმეილი ან პაროლი არაზუსტია'))
 
-				if not user.is_active:
-					return HttpResponse(_("თქვენი ექაუნთი არ არის გააქტიურებული \n შეამოწმეთ იმეილი :  {} ").format("<a href='https://mail.google.com/'>{}</a>".format(user.email)))
+				# if not user.is_active:
+				# 	return HttpResponse(_("თქვენი ექაუნთი არ არის გააქტიურებული \n შეამოწმეთ იმეილი :  {} ").format("<a href='https://mail.google.com/'>{}</a>".format(user.email)))
 			else:
-				return render(request, "registration/sing.html",{'formin':formin,'formup':formup})
+				formup = UserUpForm()
+				return render(request, "home.html",
+					{'form1':formin,
+					'form':formup,
+					'books':BookModel.objects.all(),
+					'slide_imgs' : SlideModel.objects.all(),
+					})
 		
 		elif 'singup' in request.POST:
 			formup = UserUpForm(request.POST or None)
-			print("---SIGN UP")
+
 			if formup.is_valid():
 				user = formup.save(commit=False)
 				first_name = formup.cleaned_data['first_name']
@@ -61,8 +69,7 @@ def sing(request):
 				# -----------ადმინისტრატორის იმეილი
 
 				email = 'tsotnesharvadze@gmail.com'
-				code = get_code(user.id)
-				url = "http://{}/the_user_info/{}".format(request.META['HTTP_HOST'], str(code))
+				url = "http://{}/admin/registration/account/{}/change/".format(request.META['HTTP_HOST'], str(user.id))
 
 				from_email = settings.EMAIL_HOST_USER
 				subject = _("ექაუნთის გააქტიურება")
@@ -91,15 +98,21 @@ def sing(request):
 
 
 			else:
-				return render(request, "registration/sing.html",{'formin':formin,'formup':formup})
-	if request.user.is_authenticated:
-		return redirect('app:index')
-	return render(request,"registration/sing.html",{"formin":formin,"formup":formup})
+				formin = UserInForm()
+				return render(request, "home.html",
+					{'form1':formin,
+					'form':formup,
+					'books':BookModel.objects.all(),
+					'slide_imgs' : SlideModel.objects.all(),
+					})
+
+	return redirect('app:index')
+	
 
 
 def the_user_info(request,user_code):
 	user_id = get_id(int(user_code))
-	the_user = Account.objects.get(id=user_id)
+	the_user =get_object_or_404(Account,id=user_id)
 	if the_user.is_active:
 		return HttpResponse(_("ექაუნთი უკვე გააქტიურებულია"))
 	context = {
@@ -134,10 +147,12 @@ class new_password(View):
 			password = form.cleaned_data['password']
 			confpassword = form.cleaned_data['confpassword']
 			if password == confpassword:
-
-				user_id = get_id(int(kwargs['code']))
+				try:
+					user_id = get_id(int(kwargs['code']))
 				
-				user = get_object_or_404(Account , id =user_id)
+					user = get_object_or_404(Account , id =user_id)
+				except Http404 :
+					user = get_object_or_404(Account , id =kwargs['code'])
 				
 				if user.is_active:
 					user.set_password(password)
@@ -156,10 +171,13 @@ class new_password(View):
 
 	def get(self, request, *args, **kwargs):
 		form = New_passwordForm()
-		print('ftui')
-		user_id = get_id(int(kwargs['code']))
-		print(user_id,'techemaaa')
-		user = get_object_or_404(Account , id =user_id)
+		user = None
+		try:
+			print(kwargs['code'])
+			user_id = get_id(int(kwargs['code']))
+			user = get_object_or_404(Account , id =user_id)
+		except Http404:
+			user = get_object_or_404(Account , id =kwargs['code'])
 
 		context = {
 			"form": form,
@@ -218,7 +236,7 @@ def email_send_for_new_password(request):
 			to_email=form.cleaned_data['email']
 			user=get_object_or_404(Account, email=to_email)
 			code=get_code(user.id)
-			url = "http://{}/new_password/{}".format(request.META['HTTP_HOST'], str(code))
+			url = "http://{}/registration/new_password/{}".format(request.META['HTTP_HOST'], str(code))
 
 			from_email = settings.EMAIL_HOST_USER
 			subject = _("პაროლის აღდგენა")

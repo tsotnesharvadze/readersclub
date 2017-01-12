@@ -1,7 +1,7 @@
 from django import forms
 from .models import Account
 from django.utils.translation import ugettext_lazy as _
-# import datetime
+from django.contrib.auth import authenticate
 
 class UserUpForm(forms.ModelForm):
 	first_name=forms.CharField(widget=forms.PasswordInput(attrs={
@@ -76,7 +76,13 @@ class UserInForm(forms.Form):
 		'name':"password",
 		'placeholder' : _('პაროლი'),
 		}),label=_('პაროლი'))
-
+	def clean_password(self):
+		email = self.cleaned_data['email']
+		password = self.cleaned_data['password']
+		user=authenticate(email=email,password=password)
+		if user == None:
+			raise forms.ValidationError(_("პაროლი ან იმეილი არაზუსტია"))
+		return password
 	class Meta:
 		fields=['email','password']
 

@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+
+{% load i18n %}
+
+    {% block title %} {% trans 'დეტალურად' %} {% endblock title %}
+
+{% block content %}
+
+    <div class="container">
+        <br>
+        <br>
+        <!-- item row-->
+        <div class="row">
+            <div class="col-md-5">
+                {% thumbnail object.image "200x200"  as im %}
+                <!-- <img class="img-responsive" src="{{object.image.url}}" style="width: 374px;height: 416px;"> -->
+                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="img-responsive">
+                {% endthumbnail %}
+            </div>
+            <div class="col-md-7">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h3>{% trans 'სათაური' %}</h3>
+                        <hr>
+                    </div>
+                    <div class="col-lg-12">
+                        <p>{{ object.description|safe }}</p>
+                    </div>
+                    <hr>
+                    <div class="col-md-3"><strike>{{ object.retail_price }}₾</strike></div>
+                    <div class="col-md-3">
+                        <p>{{ object.catalog_price }}₾</p>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-info btn-sm">{% trans 'კალათაში დამატება' %} <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                    <div class="col-lg-12">
+                        <table class="table table-striped">
+                            <tr>
+                                <td>{% trans 'გამომცემლობა' %}</td>
+                                <td>{{ object.publisher }}</td>
+                            </tr>
+                            <tr>
+                                <td>{% trans 'გვერდები' %}</td>
+                                <td>{{ object.page }}</td>
+
+                            </tr>
+                            <tr>
+                                <td>{% trans 'ყდა' %}</td>
+                                <td>{{ object.cover }}</td>
+
+                            </tr>
+                            <tr>
+                                <td>{% trans 'საცალო ფასი' %}</td>
+                                <td>{{ object.retail_price }}₾</td>
+
+                            </tr>
+                            <tr>
+                                <td>{% trans 'კატალოგის ფასი' %}</td>
+                                <td>{{ object.catalog_price }}₾</td>
+
+                            </tr>
+                            <tr>
+                                <td>{% trans 'საბითუმო' %}</td>
+                                <td>{{ object.get_wholesale_price }}₾</td>
+
+                            </tr>
+                            <tr>
+                                <td>{% trans 'კატეგორია' %}</td>
+                                <td>{{ object.category }}</td>
+
+                            </tr>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+
+        <!-- Related Projects Row -->
+        <div class="row">
+
+            <div class="col-lg-12">
+                <h3 class="page-header">{% trans 'მსგავსი წიგნები' %}</h3>
+            </div>
+            {% for related_book in related_books %}
+            {% if related_book != object %}
+            <div class="col-sm-3 col-xs-6">
+                <div class="test1">
+                    <a href="#">
+                        <img class="img-responsive img-hover img-related" src="{{related_book.image.url}}" alt="">
+                    </a>
+                    <div class="test2">
+                        <div class="col-lg-12">
+                            <h4>{{related_book.title}}</h4></div>
+                        <div class="col-md-2"><strike>{{related_book.retail_price}}₾</strike></div>
+                        <div class="col-md-2">
+                            <p>{{related_book.catalog_price}}₾</p>
+                        </div>
+                        <div class="col-md-5">
+                            <a href="{% url 'app:detail' related_book.id %}">
+                            <button type="button" class="btn btn-info btn-sm">{% trans 'დეტალურად' %}</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+            
+
+        </div>
+        <!-- /.row -->
+
+        <hr>
+
+
+
+    </div>
+
+{% endblock content %}

@@ -37,6 +37,7 @@ EMAIL_USE_TLS=True
 # Application definition
 
 INSTALLED_APPS = [
+    'sorl.thumbnail',
     'ckeditor', 
     'ckeditor_uploader',
     'django.contrib.admin',
@@ -149,3 +150,5 @@ CKEDITOR_JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery
 CKEDITOR_UPLOAD_PATH = 'uploads/'
 
 AUTH_USER_MODEL = 'registration.Account'
+
+THUMBNAIL_DEBUG = True
