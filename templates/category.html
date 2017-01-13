@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load thumbnail %}
+
+    {% block title %} {% trans 'კატალოგი' %} {% endblock title %}
+
+   
+{% block content %}
+
+    
+    <!-- Page Content -->
+    <div class="container">
+
+        <!-- Page Heading/Breadcrumbs -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header text-center">წიგნები
+                </h1>
+
+            </div>
+        </div>
+        <!-- /.row -->
+
+
+        <!-- Projects Row -->
+        <div class="row">
+            <div class="col-md-3">
+                <div class="list-group">
+                    <h4>კატეგორიები</h4>
+                    {% for category in categories %}
+                    <a href="{% url 'app:slug_category' category.slug %}" class="list-group-item">{{category.title}}</a>
+                    {% endfor %}
+
+                </div>
+            </div>
+            <div class="col-md-9">
+                {% for book in bookmodel_list %}
+
+                {% if forloop.counter|add:"-1"|divisibleby:3 %}
+                <div class="row">
+                {% endif %}
+
+                    <div class="col-md-4 img-portfolio">
+                        <a href="{% url 'app:detail' book.id %}">
+                        {% thumbnail book.image "140x200"  as im %}
+                            <img src="{{im.url}}" width="{{ im.width }}" height="{{ im.height }}" class="img-responsive img-hover">
+                        {% endthumbnail %}
+                        </a>
+                        <h3>
+                            <a href="item-details.html">{{book.title}}</a>
+                        </h3>
+                        <div class="col-md-2"><strike>{{book.retail_price}}₾</strike></div>
+                        <div class="col-md-2">
+                            <p>{{ book.catalog_price }}₾</p>
+                        </div>
+                        <div class="col-md-5">
+                            <a href="{% url 'app:detail' book.id %}">
+                                <button type="button" class="btn btn-info btn-sm">{% trans 'დეტალურად' %}</button>
+                            </a>
+                        </div>
+                    </div>
+                {% if forloop.counter|divisibleby:3 %}
+                </div>
+                <br>
+                {% endif %}
+                {% endfor %}
+                {% if not books|length|divisibleby:3 %}
+                </div>
+                <br>
+                {% endif %}
+
+
+                </div>
+            </div>
+        </div>
+            <!-- /.row -->
+
+            <hr>
+
+            <!-- Pagination -->
+            <div class="row text-center">
+                <div class="col-lg-12">
+                {% if is_paginated %}
+                    <ul class="pagination">
+                        <li>{% if page_obj.has_previous %}
+                            <a href='?page={{ page_obj.previous_page_number }}'>&laquo;</a>
+                            {% endif %}
+                        </li>
+                        {% for number in page_obj.paginator.page_range %}
+                        {% if page_obj.number == number %}
+                        <li class="active">
+                        {% else %}
+                        <li>
+                        {% endif %}
+                            <a href="?page={{ number }}">{{number}}</a>
+                        </li>
+                        {% endfor %}
+                        <li>{% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                {% endif %}
+                </div>
+            </div>
+            <!-- /.row -->
+
+            <hr>
+
+
+        </div>
+        <!-- /.container -->
+{% endblock content %}

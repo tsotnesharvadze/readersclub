@@ -13,8 +13,7 @@
         <!-- item row-->
         <div class="row">
             <div class="col-md-5">
-                {% thumbnail object.image "200x200"  as im %}
-                <!-- <img class="img-responsive" src="{{object.image.url}}" style="width: 374px;height: 416px;"> -->
+                {% thumbnail object.image "201x200"  as im %}
                 <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="img-responsive">
                 {% endthumbnail %}
             </div>

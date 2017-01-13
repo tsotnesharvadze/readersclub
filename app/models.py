@@ -60,6 +60,34 @@ class SlideModel(AbsTime):
 		verbose_name_plural = _('სლაიდის სურათები')
 
 
+class BasketLine(AbsTime):
+	book = models.ForeignKey(BookModel, verbose_name=_('წიგნი'))
+	quantity = models.IntegerField(_('რაოდენობა'), default=1)
+
+	def get_price(self):
+		return round(self.book.get_wholesale_price() * self.quantity ,2)
+
+
+	class Meta:
+		verbose_name = _('შეკვეთა')
+		verbose_name_plural = _('შეკვეთები')
+
+
+
+class BasketModel(AbsTime):
+	line = models.ManyToManyField(BasketLine, verbose_name=_('შეკვეთა'),blank=True)
+	def __str__(self):
+		return str(self.account_set.all()[0])
+
+	def get_total_price(self):
+		total = 0
+		for i in self.line.all():
+			total += i.get_price()
+		return total
+	class Meta:
+		verbose_name = _('კალათა')
+		verbose_name_plural = _('კალათები')
+
 
 
 

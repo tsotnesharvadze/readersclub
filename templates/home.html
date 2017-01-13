@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load thumbnail %}
 {% block title %} {% trans 'მკითხველთა კლუბი' %} {% endblock title %}
 
     {% block head %}
@@ -68,9 +69,9 @@
         <div class="row">
         {% endif %}
             <div class="col-md-3">
-              
-                   <img src="{{book.image.url}}" class="book_img">
-            
+                {% thumbnail book.image "140x200"  as im %}
+                   <img src="{{im.url}}" width="{{ im.width }}" height="{{ im.height }}" > <!-- class="book_img"> -->
+                {% endthumbnail %}
                 <div class="col-lg-12">
                     <h4>{{book.title}}</h4></div>
                 <div class="col-md-2"><strike>{{book.retail_price}}₾</strike></div>

@@ -2,8 +2,11 @@ from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.utils.translation import ugettext_lazy as _
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 from django.db import models
 
+from app.models import BasketModel
 
 class AccountManager(BaseUserManager):
     def create_user(self, email, password=None, **kwargs):
@@ -48,16 +51,18 @@ class Account(AbstractBaseUser, PermissionsMixin):
     personal_number = models.IntegerField(_('პირადი ნომერი'), default=1)
     phone= models.CharField(verbose_name=_("მობ.ტელეფონი"), max_length=40, blank=True, null=True)
     rules = models.BooleanField(verbose_name=_("წესები"),default=False)
+    sex = models.CharField(_("სქესი"), max_length=1, default='0', choices=ASC)
 
     is_admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
 
-
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    sex = models.CharField(_("სქესი"), max_length=1, default='0', choices=ASC)
+    basket = models.ForeignKey('app.BasketModel', null=True, verbose_name=_('კალათა'), blank=True)
+
+    
     # username = models.CharField(verbose_name=_("მეტსახელი"),max_length=40, unique=True)
     # tagline = models.CharField(max_length=140, blank=True)    
     # avatar=models.ImageField(verbose_name=_("სურათი"),upload_to='myapp',default='myapp/palitra-media.jpg')
@@ -90,3 +95,13 @@ class Account(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = _('ექაუნთი')
         verbose_name_plural = _('ექაუნთები')
+
+
+
+@receiver(post_save, sender=Account)
+def p_save(sender, **kwargs):
+
+    object = kwargs.get("instance") 
+    if kwargs['created']:
+        object.basket = BasketModel.objects.create()
+        object.save()
