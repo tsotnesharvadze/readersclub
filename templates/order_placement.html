@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load thumbnail %}
+
+    {% block title %} {% trans 'order placement' %} {% endblock title %}
+
+    
+    {% block content %}
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <hr>
+
+        <div class="row">
+            <div class="col-md-8">
+                <h3>პროდუქტები</h3>
+                <hr>
+                {% for line in basket.line.all %}
+                <div class="row products-right">
+                    <div class="col-md-3">
+                        {% thumbnail line.book.image "140x200"  as im %}
+                        <img class="img-responsive" src="{{im.url}}" width="{{ im.width }}" height="{{ im.height }}">
+                        {% endthumbnail %}
+                    </div>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-lg-11">
+                                <h3>{{line.book}}</h3>
+
+                            </div>
+                            <div class="col-sm-1"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
+                            <br>
+                            <div class="col-md-3">{% trans 'რაოდენობა' %}</div>
+                            <div class="col-md-2">{{line.quantity}}</div>
+                            <div class="col-md-4">ფასი</div>
+                            <div class="col-md-3">{{line.book.get_wholesale_price}}<img src="https://cloud.githubusercontent.com/assets/1606993/7555191/57938f8a-f754-11e4-9792-7a0f961e83fb.png" width="12px" alt="lari-normal"></div>
+
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="col-md-3">
+                <div class="row" style="margin-left:5px;">
+                    <div class="bag-left">
+                        <div class="row products-bag-left">
+                            <div class="col-md-6"><b>{% trans 'პროდუქტების ჩამონათვალი' %}</b></div>
+                            <div class="col-md-3"><b>{% trans 'ფასი' %}</b></div>
+                            <div class="col-md-3"><b>{% trans 'ჯამი' %}</b></div>
+                        </div>
+                        <br>
+                        {% for line in basket.line.all %}
+
+                        <div class="row products-bag-left">
+                            <div class="col-md-6">{{ line.book }}</div>
+                            <div class="col-md-3">{{ line.book.get_wholesale_price }}<img src="https://cloud.githubusercontent.com/assets/1606993/7555191/57938f8a-f754-11e4-9792-7a0f961e83fb.png" width="12px" alt="lari-normal">x {{line.quantity}}
+                            </div>
+                            <div class="col-md-3">{{line.get_price}}<img src="https://cloud.githubusercontent.com/assets/1606993/7555191/57938f8a-f754-11e4-9792-7a0f961e83fb.png" width="12px" alt="lari-normal"></div>
+                        </div>
+                       
+                       {% endfor %}
+                        <hr>
+                        <div class="row products-bag-left">
+                            <div class="col-md-9">
+                                <div class="sum">{% trans 'სულ ჯამი' %}</div>
+                            </div>
+                            <div class="col-md-3">{{basket.get_total_price}}<img src="https://cloud.githubusercontent.com/assets/1606993/7555191/57938f8a-f754-11e4-9792-7a0f961e83fb.png" width="12px" alt="lari-normal"></div>
+                        </div>
+                        <br>
+
+                        <form action="" method="POST">{% csrf_token %}
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label for="exampleSelect1">{% trans 'აირჩიეთ მისამართი' %}</label>
+                                <select class="form-control" id="exampleSelect1" name="address">
+                                    <option>მისამართი 1</option>
+                                    <option>მისამართი 2</option>
+                                    <option>მისამართი 3</option>
+                                    <option>4</option>
+
+                                </select>
+                            </div>
+                            <div class="col-lg-6">
+                                <a>
+                                    <button type="button" class="btn btn-warning btn-sm btn-block">{% trans 'მისამართის დამატება' %}</button>
+                                </a>
+                            </div>
+                            <br>
+                            <br>
+                        </div>
+
+                        <div class="col-lg-12">
+                                <button type="submit" class="btn btn-primary btn-md btn-block">{% trans 'შეკვეთის დადასტურება' %}</button>
+                        </div>
+                        </form>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <hr>
+
+    </div>
+
+{% endblock content %}

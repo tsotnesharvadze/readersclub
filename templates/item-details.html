@@ -13,7 +13,7 @@
         <!-- item row-->
         <div class="row">
             <div class="col-md-5">
-                {% thumbnail object.image "201x200"  as im %}
+                {% thumbnail object.image "202x200"  as im %}
                 <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="img-responsive">
                 {% endthumbnail %}
             </div>
@@ -32,8 +32,15 @@
                         <p>{{ object.catalog_price }}₾</p>
                     </div>
                     <div class="col-md-6">
-                        <button type="button" class="btn btn-info btn-sm">{% trans 'კალათაში დამატება' %} <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                        <form method="POST" action=" ">{% csrf_token %}
+                        {% if not object in user.basket.get_lines_book %}
+                        <button type="submit" name="add" class="btn btn-info btn-sm">{% trans 'კალათაში დამატება' %} <i class="fa fa-shopping-bag" aria-hidden="true"></i>
                         </button>
+                        {% else %}
+                        <button type="submit" name="remove" class="btn-red btn-info btn-sm ">{% trans 'კალათიდან ამოღება' %} <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                        </button>
+                        {% endif %}
+                        </form>
                     </div>
                     <br>
                     <br>

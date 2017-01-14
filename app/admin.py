@@ -1,6 +1,9 @@
 from django.contrib import admin
-from .models import BookModel , CategoryModel , SlideModel
+from .models import BookModel , CategoryModel , SlideModel ,OrderModel ,BasketModel ,BasketLine
 # Register your models here.
 admin.site.register(BookModel)
 admin.site.register(CategoryModel)
 admin.site.register(SlideModel)
+admin.site.register(OrderModel)
+admin.site.register(BasketModel)
+admin.site.register(BasketLine)

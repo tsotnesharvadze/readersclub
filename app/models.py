@@ -63,14 +63,16 @@ class SlideModel(AbsTime):
 class BasketLine(AbsTime):
 	book = models.ForeignKey(BookModel, verbose_name=_('წიგნი'))
 	quantity = models.IntegerField(_('რაოდენობა'), default=1)
+	user = models.ForeignKey('registration.Account', verbose_name=_('დამკვეთი') , null =True)
 
 	def get_price(self):
 		return round(self.book.get_wholesale_price() * self.quantity ,2)
 
-
+	def __str__(self):
+		return str(self.book) + ' X ' + str(self.quantity) + ' = ' +str(self.get_price()) +' | '+ str(self.user.get_full_name())
 	class Meta:
-		verbose_name = _('შეკვეთა')
-		verbose_name_plural = _('შეკვეთები')
+		verbose_name = _('შეკვეთის კომპონენტი')
+		verbose_name_plural = _('შეკვეთის კომპონენტები')
 
 
 
@@ -84,9 +86,29 @@ class BasketModel(AbsTime):
 		for i in self.line.all():
 			total += i.get_price()
 		return total
+	def get_lines_book(self):
+		return [ i.book for i in self.line.all()]
 	class Meta:
 		verbose_name = _('კალათა')
 		verbose_name_plural = _('კალათები')
+
+
+
+
+class OrderModel(AbsTime):
+	line = models.ManyToManyField(BasketLine, verbose_name=_('შეკვეთა'),blank=True)
+	user = models.ForeignKey('registration.Account', verbose_name=_('დამკვეთი'))
+	address = models.CharField(_('მისამართი'), max_length=200, null= True,  default='')
+	created = models.DateTimeField(_('შეკვეთის დრო'), auto_now_add=True, null=True)
+	total = models.DecimalField(_("ჯამური ღირებულება "),max_digits=7, decimal_places=2,default = 0)
+
+	def __str__(self):
+		return self.user.get_full_name()
+
+	class Meta:
+		verbose_name = _('შეკვეთა')
+		verbose_name_plural = _('შეკვეთები')
+
 
 
 

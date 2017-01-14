@@ -8,146 +8,80 @@
 <!-- Page Content -->
 {% block content %}
     <div class="container">
-        <h3 class="text-center">კალათა</h3>
+        <h3 class="text-center">{% trans 'კალათა' %}</h3>
         <hr>
 
         <div class="row">
             <div class="col-md-8">
-                <h3>პროდუქტები</h3>
+                <h3>{% trans 'პროდუქტები' %}</h3>
                 <hr>
-                <div class="row products-right">
-                    <div class="col-md-3"><img class="img-responsive" src="http://placehold.it/200x300"></div>
+
+                {% for line in basket.line.all %}
+                <div class="row products-right" line= line-{{line.id}} >
+                    <div class="col-md-3">
+                        {% thumbnail line.book.image "140x200"  as im %}
+                        <img class="img-responsive" src="{{im.url}}" width="{{ im.width }}" height="{{ im.height }}">
+                        {% endthumbnail %}
+                    </div>
                     <div class="col-md-9">
                         <div class="row">
                             <div class="col-lg-11">
-                                <h3>სათაური</h3>
+                                <h3>{{line.book}}</h3>
 
                             </div>
-                            <div class="col-sm-1"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
+                            <div class="col-sm-1" onclick="delete_line(this)" data-pk='{{line.id}}'>
+                            {% csrf_token %}
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            </div>
                             <br>
-                            <div class="col-md-3">რაოდენობა</div>
-                            <div class="col-md-2">1</div>
+                            <div class="col-md-3">{% trans 'რაოდენობა' %}</div>
+                            <div class="col-md-2"><input type="number" onchange="change_quantity(this)" line-pk='{{line.pk}}' name="" class="input_number" value="{{line.quantity}}"></div>
                             <div class="col-md-4">ფასი</div>
-                            <div class="col-md-3">5<img src="https://cloud.githubusercontent.com/assets/1606993/7555191/57938f8a-f754-11e4-9792-7a0f961e83fb.png" width="12px" alt="lari-normal"></div>
+                            <div class="col-md-3">{{line.book.get_wholesale_price}}<img src="https://cloud.githubusercontent.com/assets/1606993/7555191/57938f8a-f754-11e4-9792-7a0f961e83fb.png" width="12px" alt="lari-normal"></div>
 
                         </div>
                     </div>
                 </div>
-
-                <div class="row products-right">
-                    <div class="col-md-3"><img class="img-responsive" src="http://placehold.it/200x300"></div>
-                    <div class="col-md-9">
-                        <div class="row">
-                            <div class="col-lg-11">
-                                <h3>სათაური</h3>
-
-                            </div>
-                            <div class="col-sm-1"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
-                            <br>
-                            <div class="col-md-3">რაოდენობა</div>
-                            <div class="col-md-2">1</div>
-                            <div class="col-md-4">ფასი</div>
-                            <div class="col-md-3">5<img src="https://cloud.githubusercontent.com/assets/1606993/7555191/57938f8a-f754-11e4-9792-7a0f961e83fb.png" width="12px" alt="lari-normal"></div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row products-right">
-                    <div class="col-md-3"><img class="img-responsive" src="http://placehold.it/200x300"></div>
-                    <div class="col-md-9">
-                        <div class="row">
-                            <div class="col-lg-11">
-                                <h3>სათაური</h3>
-
-                            </div>
-                            <div class="col-sm-1"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
-                            <br>
-                            <div class="col-md-3">რაოდენობა</div>
-                            <div class="col-md-2">1</div>
-                            <div class="col-md-4">ფასი</div>
-                            <div class="col-md-3">5<img src="https://cloud.githubusercontent.com/assets/1606993/7555191/57938f8a-f754-11e4-9792-7a0f961e83fb.png" width="12px" alt="lari-normal"></div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row products-right">
-                    <div class="col-md-3"><img class="img-responsive" src="http://placehold.it/200x300"></div>
-                    <div class="col-md-9">
-                        <div class="row">
-                            <div class="col-lg-11">
-                                <h3>სათაური</h3>
-
-                            </div>
-                            <div class="col-sm-1"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
-                            <br>
-                            <div class="col-md-3">რაოდენობა</div>
-                            <div class="col-md-2">1</div>
-                            <div class="col-md-4">ფასი</div>
-                            <div class="col-md-3">5<img src="https://cloud.githubusercontent.com/assets/1606993/7555191/57938f8a-f754-11e4-9792-7a0f961e83fb.png" width="12px" alt="lari-normal"></div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row products-right">
-                    <div class="col-md-3"><img class="img-responsive" src="http://placehold.it/200x300"></div>
-                    <div class="col-md-9">
-                        <div class="row">
-                            <div class="col-lg-11">
-                                <h3>სათაური</h3>
-
-                            </div>
-                            <div class="col-sm-1"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
-                            <br>
-                            <div class="col-md-3">რაოდენობა</div>
-                            <div class="col-md-2">1</div>
-                            <div class="col-md-4">ფასი</div>
-                            <div class="col-md-3">5<img src="https://cloud.githubusercontent.com/assets/1606993/7555191/57938f8a-f754-11e4-9792-7a0f961e83fb.png" width="12px" alt="lari-normal"></div>
-
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
 
             <div class="col-md-3">
                 <div class="row" style="margin-left:5px;">
                     <div class="bag-left">
                         <div class="row products-bag-left">
-                            <div class="col-md-6"><b>პროდუქტების ჩამონათვალი</b></div>
-                            <div class="col-md-3"><b>ფასი</b></div>
-                            <div class="col-md-3"><b>ჯამი</b></div>
+                            <div class="col-md-6"><b>{% trans 'პროდუქტების ჩამონათვალი' %}</b></div>
+                            <div class="col-md-3"><b>{% trans 'ფასი' %}</b></div>
+                            <div class="col-md-3"><b>{% trans 'ჯამი' %}</b></div>
                         </div>
                         <br>
-                        <div class="row products-bag-left">
-                            <div class="col-md-6">სათაური</div>
-                            <div class="col-md-3">5<img src="https://cloud.githubusercontent.com/assets/1606993/7555191/57938f8a-f754-11e4-9792-7a0f961e83fb.png" width="12px" alt="lari-normal">x 1
-                            </div>
-                            <div class="col-md-3">5<img src="https://cloud.githubusercontent.com/assets/1606993/7555191/57938f8a-f754-11e4-9792-7a0f961e83fb.png" width="12px" alt="lari-normal"></div>
+
+                        <div id= 'tablo_chasamatebeli' >
+
                         </div>
-                        <div class="row products-bag-left">
-                            <div class="col-md-6">სათაური</div>
-                            <div class="col-md-3">5<img src="https://cloud.githubusercontent.com/assets/1606993/7555191/57938f8a-f754-11e4-9792-7a0f961e83fb.png" width="12px" alt="lari-normal">x 1
+                       {% for line in basket.line.all %}
+
+                        <div class="row products-bag-left" line= line-tablo-{{line.id}} >
+                            <div class="col-md-6">{{ line.book }}</div>
+                            <div class="col-md-3">{{ line.book.get_wholesale_price }}<img src="https://cloud.githubusercontent.com/assets/1606993/7555191/57938f8a-f754-11e4-9792-7a0f961e83fb.png" width="12px" alt="lari-normal">x {{line.quantity}}
                             </div>
-                            <div class="col-md-3">5<img src="https://cloud.githubusercontent.com/assets/1606993/7555191/57938f8a-f754-11e4-9792-7a0f961e83fb.png" width="12px" alt="lari-normal"></div>
+                            <div class="col-md-3">{{line.get_price}}<img src="https://cloud.githubusercontent.com/assets/1606993/7555191/57938f8a-f754-11e4-9792-7a0f961e83fb.png" width="12px" alt="lari-normal"></div>
                         </div>
-                        <div class="row products-bag-left">
-                            <div class="col-md-6">სათაური</div>
-                            <div class="col-md-3">5<img src="https://cloud.githubusercontent.com/assets/1606993/7555191/57938f8a-f754-11e4-9792-7a0f961e83fb.png" width="12px" alt="lari-normal">x 1
-                            </div>
-                            <div class="col-md-3">5<img src="https://cloud.githubusercontent.com/assets/1606993/7555191/57938f8a-f754-11e4-9792-7a0f961e83fb.png" width="12px" alt="lari-normal"></div>
-                        </div>
+                        
+                       
+                       {% endfor %}
+
                         <hr>
                         <div class="row products-bag-left">
                             <div class="col-md-9">
-                                <div class="sum">სულ ჯამი</div>
+                                <div class="sum">{% trans 'სულ ჯამი' %}</div>
                             </div>
-                            <div class="col-md-3">15<img src="https://cloud.githubusercontent.com/assets/1606993/7555191/57938f8a-f754-11e4-9792-7a0f961e83fb.png" width="12px" alt="lari-normal"></div>
+                            <div class="col-md-3"><div id = 'chasamatebeli' class="col-sm-1"><h dasamali_totali = 'dasamali_totali' class ='total_price' >{{basket.get_total_price}}</h></div><img id="total_price_lari" src="https://cloud.githubusercontent.com/assets/1606993/7555191/57938f8a-f754-11e4-9792-7a0f961e83fb.png" width="12px" alt="lari-normal"></div>
                         </div>
                         <br>
                         <div class="col-lg-12">
-                            <button type="button" class="btn btn-primary btn-md btn-block">შეკვეთა</button>
+                        {% if not basket.line.all|length == 0 %}    
+                            <a id="order_btn" href="{% url 'app:order' %}" type="button" class="btn btn-primary btn-md btn-block">{% trans 'შეკვეთა' %}</a>
+                        {% endif %}
                         </div>
 
                     </div>
@@ -163,3 +97,72 @@
         <!-- /.container -->
     </div>
 {% endblock content %}
+
+{% block script %}
+
+<script type="text/javascript">
+
+    function delete_line(element){
+        var line_pk = $(element).attr("data-pk");
+
+        $.ajax({
+            url: '/basket/',
+            type: 'POST',
+            data: {
+                line_pk: line_pk,
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+            },
+            success:function(data) {
+                var dasamali = $("[line=line-"+data['id']+"]");
+                $.each(dasamali, function(i, element){
+                    $(element).hide();
+                });
+                var dasamali = $("[line=line-tablo-"+data['id']+"]");
+                $.each(dasamali, function(i, element){
+                    $(element).hide();
+                });
+                var dasamali_totali = $("[dasamali_totali=dasamali_totali]");
+                $.each(dasamali_totali, function(i, element){
+                    $(element).hide();
+                });
+                $('#chasamatebeli').append('<h dasamali_totali = dasamali_totali class =total_price>'+data['total_price']+'</h>');
+                if (data['length'] == 0){
+                    $('#order_btn').hide();
+                }
+            }
+        });
+    };
+
+    function change_quantity(element){
+        var line_pk = $(element).attr("line-pk");
+        var quantity = $(element).val();
+        $.ajax({
+            url: '/basket/',
+            type: 'POST',
+            data: {
+                line_pk_price: line_pk,
+                quantity : quantity,
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+            },
+            success:function(data) {
+                var dasamali = $("[line=line-tablo-"+data['id']+"]");
+                $.each(dasamali, function(i, element){
+                    $(element).hide();
+                });
+                var dasamali_totali = $("[dasamali_totali=dasamali_totali]");
+                $.each(dasamali_totali, function(i, element){
+                    $(element).hide();
+                });
+                $('#chasamatebeli').append('<h dasamali_totali = dasamali_totali class =total_price>'+data['total_price']+'</h>');
+                $('#tablo_chasamatebeli').append("<div class='row products-bag-left' line=line-tablo-"+data['id']+"><div class='col-md-6'>"+data['book']+"</div><div class='col-md-3'>"+data['retail_price']+"<img src='https://cloud.githubusercontent.com/assets/1606993/7555191/57938f8a-f754-11e4-9792-7a0f961e83fb.png' width='12px' alt='lari-normal'>x "+data['quantity']+"</div><div class='col-md-3'>"+data['price']+"<img src='https://cloud.githubusercontent.com/assets/1606993/7555191/57938f8a-f754-11e4-9792-7a0f961e83fb.png' width='12px' alt='lari-normal'></div></div>");
+                
+            }
+        });
+    };
+
+
+
+
+</script>
+
+{% endblock script %}

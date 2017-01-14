@@ -29,8 +29,8 @@
     background-color: #F2F4F9 !important;
     border-radius: 10px;
     position: fixed !important;
-    left: 720px;
-    padding: 5px;
+    left: 66%;
+    padding: 50px;
 
 }
 
@@ -146,4 +146,23 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
     padding: 5px;
     border-radius: 5px;
     background-color: #F7F7F9;
+}
+.row{
+    margin-right: 0;
+}
+.btn-block {
+    display: block;
+    width: 184px;
+}
+
+.input_number{
+    width: 45px;
+}
+
+#total_price_lari{
+    margin: 0px 33%;
+}
+
+.total_price{
+    margin: 0px -49%;
 }
