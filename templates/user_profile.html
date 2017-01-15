@@ -20,84 +20,80 @@
                 <div class="list-group">
                     <a href="#" class="list-group-item active text-center">
                         <h4 class="glyphicon glyphicon-user"></h4>
-                        <br/>ჩემი პროფილი
+                        <br/>{% trans 'ჩემი პროფილი' %}
                     </a>
                     <a href="#" class="list-group-item text-center">
                         <h4 class="glyphicon glyphicon-home"></h4>
-                        <br/>მისამართი
+                        <br/>{% trans 'მისამართი' %}
                     </a>
 
                 </div>
             </div>
             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab">
                 <!-- flight section -->
-                <div class="bhoechie-tab-content active">
+                <div class="bhoechie-tab-content ">
 
-                    <h2 style="margin-top: 0;color:#FF723F">პროფილი</h2>
+                    <h2 style="margin-top: 0;color:#FF723F">{% trans 'პროფილი' %}</h2>
                     <hr>
                     <div class="row">
                         <div class="col-md-3">
-                            <img src="http://www.freeiconspng.com/uploads/female-icon-23.png" style="width:200px">
+                            {% if object.sex == '1' %}
+                            <img src="{% static 'images/men.png' %}" style="width:200px">
+                            {% else %}
+                            <img src="{% static 'images/women.png' %}" style="width:200px">
+                            {% endif %}
                         </div>
                         <div class="col-md-5">
                             <table class="table table-condensed">
 
                                 <tbody>
                                     <tr>
-                                        <th>სახელი</th>
-                                        <td>მარიამ</td>
+                                        <th>{% trans 'სახელი' %}</th>
+                                        <td>{{object.first_name}}</td>
 
                                     </tr>
                                     <tr>
-                                        <th>გვარი</th>
-                                        <td>ლორთქიფანიძე</td>
+                                        <th>{% trans 'გვარი' %}</th>
+                                        <td>{{object.last_name}}</td>
 
                                     </tr>
                                     <tr>
-                                        <th>პირადი ნომერი</th>
-                                        <td>8329289238932982</td>
+                                        <th>{% trans 'პირადი ნომერი' %}</th>
+                                        <td>{{object.personal_number}}</td>
 
                                     </tr>
                                     <tr>
-                                        <th>ტელეფონის ნომერი</th>
-                                        <td>+995 5933030393</td>
+                                        <th>{% trans 'ტელეფონის ნომერი' %}</th>
+                                        <td>{{object.phone}}</td>
 
                                     </tr>
                                     <tr>
-                                        <th>იმეილი</th>
-                                        <td>Dooley@palitra.ge</td>
+                                        <th>{% trans 'იმეილი' %}</th>
+                                        <td>{{object.email}}</td>
 
                                     </tr>
 
                                 </tbody>
                             </table>
-                            <button type="button" class="btn btn-default btn-sm active" style="margin-left:150px">ინფორმაციის განახლება</button>
+                            <!-- <button type="button" class="btn btn-default btn-sm active" style="margin-left:150px">ინფორმაციის განახლება</button> -->
                         </div>
                     </div>
                     <br>
                     <br>
-                    <h2 style="margin-top: 0;color:#FF723F">პაროლის შეცვლა</h2>
+                    <h2 style="margin-top: 0;color:#FF723F">{% trans 'პაროლის შეცვლა' %}</h2>
                     <hr>
                     <div class="row">
                         <div class="col-md-5">
-                            <label for="inputPassword5">მიმდინარე პაროლი</label>
+                        <form method="POST" action="{% url 'registration:new_password' user.id %}">{% csrf_token %}
+                            {{New_passwordForm.as_p}}
 
-                            <input type="password" id="inputPassword5" class="form-control" aria-describedby="passwordHelpBlock">
-                            <br>
-                            <label for="inputPassword5">ახალი პაროლი</label>
-                            <input type="password" id="inputPassword5" class="form-control" aria-describedby="passwordHelpBlock">
-                            <p id="passwordHelpBlock" class="form-text text-muted">
-                                ახალი პაროლი უნდა შედგებოდეს 8-20 სიმბოლოსგან (ლათინური ანბანის დიდი და პატარა სიმბოლოები და ციფრები).
-                            </p>
-                            <label for="inputPassword5">გაიმეორეთ ახალი პაროლი</label>
-                            <input type="password" id="inputPassword5" class="form-control" aria-describedby="passwordHelpBlock">
-
-                            <button type="button" class="btn btn-default active">შეცვლა</button>
+                            <button type="submit" id="password_change_btn" class="btn btn-default active">{% trans 'შეცვლა' %}</button>
+                        </form>
                         </div>
                     </div>
                 </div>
                 <!-- train section -->
-                <div class="bhoechie-tab-content">
+                <div class="bhoechie-tab-content active">
                     <div class="col-md-6">
                         <h2 style="margin-top: 0;color:#FF723F">მისამართები</h2>
                         <hr>

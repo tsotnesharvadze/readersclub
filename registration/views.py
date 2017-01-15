@@ -173,7 +173,6 @@ class new_password(View):
 		form = New_passwordForm()
 		user = None
 		try:
-			print(kwargs['code'])
 			user_id = get_id(int(kwargs['code']))
 			user = get_object_or_404(Account , id =user_id)
 		except Http404:
@@ -188,6 +187,11 @@ class new_password(View):
 class Profile(DetailView):
 	template_name = 'user_profile.html'
 	model = Account
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['New_passwordForm'] = New_passwordForm()
+		return context
 
 
 

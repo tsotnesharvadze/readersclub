@@ -166,3 +166,8 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
 .total_price{
     margin: 0px -49%;
 }
+
+#password_change_btn{
+    display: block;
+    margin: 5px 0px;
+}

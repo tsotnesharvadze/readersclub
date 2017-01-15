@@ -89,11 +89,11 @@ class UserInForm(forms.Form):
 class New_passwordForm(forms.Form):
 	password=forms.CharField(widget=forms.PasswordInput(attrs={
 	'class':'form-control',
-	'style':"width: 30%;",
+	'style':"",
 	}), label=_("პაროლი"))	
 	confpassword=forms.CharField(widget=forms.PasswordInput(attrs={
 	'class':'form-control',
-	'style':"width: 30%;",
+	'style':"",
 	}), label=_("დაადასტურე პაროლი"))
 	class Meta:
 		fields=["password","confpassword"]
