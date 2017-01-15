@@ -35,7 +35,7 @@
                             </div>
                             <br>
                             <div class="col-md-3">{% trans 'რაოდენობა' %}</div>
-                            <div class="col-md-2"><input type="number" onchange="change_quantity(this)" line-pk='{{line.pk}}' name="" class="input_number" value="{{line.quantity}}"></div>
+                            <div class="col-md-2"><input type="number" min="1" onchange="change_quantity(this)" line-pk='{{line.pk}}' name="" class="input_number" value="{{line.quantity}}"></div>
                             <div class="col-md-4">ფასი</div>
                             <div class="col-md-3">{{line.book.get_wholesale_price}}<img src="https://cloud.githubusercontent.com/assets/1606993/7555191/57938f8a-f754-11e4-9792-7a0f961e83fb.png" width="12px" alt="lari-normal"></div>
 

@@ -11,7 +11,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # from registration.models import Account
 from .helpers import slug_to_id #,get_index,send_email
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
+# from django.views.decorators.csrf import csrf_exempt
 
 
 # class BookView(DetailsView):
@@ -46,7 +46,7 @@ class detail(DetailView):
 				book = get_object_or_404(BookModel,id = kwargs['pk']))
 			basket.line.add(line)
 		elif 'remove' in request.POST:
-			line = get_object_or_404(BasketLine , book = get_object_or_404(BookModel,id = kwargs['pk']),user = request.user)
+			line = basket.line.filter(book = get_object_or_404(BookModel,id = kwargs['pk']),user = request.user)[0]
 			basket.line.remove(line)
 			line.delete()
 
