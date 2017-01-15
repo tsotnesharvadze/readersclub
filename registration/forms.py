@@ -4,7 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import authenticate
 
 class UserUpForm(forms.ModelForm):
-	first_name=forms.CharField(widget=forms.PasswordInput(attrs={
+	first_name=forms.CharField(widget=forms.TextInput(attrs={
 		'class':'form-control',
 		'type':"text",
 		'name':"first_name",

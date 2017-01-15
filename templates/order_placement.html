@@ -78,17 +78,16 @@
                             <div class="form-group">
                                 <label for="exampleSelect1">{% trans 'აირჩიეთ მისამართი' %}</label>
                                 <select class="form-control" id="exampleSelect1" name="address">
-                                    <option>მისამართი 1</option>
-                                    <option>მისამართი 2</option>
-                                    <option>მისამართი 3</option>
-                                    <option>4</option>
+                                    {% for address in user.address.all %}
+                                    <option>{{address}}</option>
 
+                                    {% endfor %}
                                 </select>
                             </div>
                             <div class="col-lg-6">
-                                <a>
-                                    <button type="button" class="btn btn-warning btn-sm btn-block">{% trans 'მისამართის დამატება' %}</button>
-                                </a>
+                                
+                                    <a type="button" href="{% url 'registration:profile' user.id %}" class="btn btn-warning btn-sm btn-block">{% trans 'მისამართის დამატება' %}</a>
+                                
                             </div>
                             <br>
                             <br>

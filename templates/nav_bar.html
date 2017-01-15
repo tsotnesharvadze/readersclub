@@ -25,7 +25,7 @@
                         <a href="{% url 'app:about' 1 %}">{% trans 'ჩვენს შესახებ' %}</a>
                     </li>
                     <li>
-                        <a href="#">{% trans 'კონტაქტი' %}</a>
+                        <a href="{% url 'app:contact' %}">{% trans 'კონტაქტი' %}</a>
                     </li>
                     {% if user.is_authenticated %}
                     <li>

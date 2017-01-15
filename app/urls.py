@@ -15,7 +15,7 @@ urlpatterns = [
 	url(r'^basket/$',views.Basket.as_view() , name = 'basket'),
 	url(r'^basket/order/' , views.Order.as_view() , name = 'order'),
 	url(r'^about/(?P<pk>[0-9]+)/$' ,views.About.as_view(), name = 'about'),
-	# url(r'^success/$ , )
+	url(r'^contact/$',views.Contact.as_view(),name = 'contact'),
 
 
 ]

@@ -1,10 +1,10 @@
 from django.shortcuts import render ,get_object_or_404, redirect#,render_to_response
-# from django.conf import settings
+from django.conf import settings
 from django.http import Http404, HttpResponse, JsonResponse
 from django.utils.translation import ugettext_lazy as _
 # from django.utils.translation import get_language
-from django.views.generic import TemplateView ,DetailView , ListView
-from .forms import BookModelForm 
+from django.views.generic import TemplateView ,DetailView , ListView ,FormView
+from .forms import ContactForm 
 from .models import SlideModel , BookModel ,CategoryModel , BasketModel ,OrderModel,BasketLine,ReadersclubModel
 from registration.forms import UserUpForm ,UserInForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -12,7 +12,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .helpers import slug_to_id #,get_index,send_email
 from django.http import JsonResponse
 # from django.views.decorators.csrf import csrf_exempt
-
+from django.core.mail import send_mail
 
 # class BookView(DetailsView):
 # 	model = BookModel
@@ -25,8 +25,8 @@ class index(TemplateView):
 		context = super().get_context_data(**kwargs)
 		context['slide_imgs'] = SlideModel.objects.all()
 		context['books'] = BookModel.objects.all()
-		context['form'] = UserUpForm()
-		context['form1'] = UserInForm()
+		context['formup'] = UserUpForm()
+		context['formin'] = UserInForm()
 		return context
 
 
@@ -36,6 +36,8 @@ class detail(DetailView):
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
 		context['related_books'] = BookModel.objects.filter(category = self.object.category).exclude(title = self.object.title)[:4]
+		context['formup'] = UserUpForm()
+		context['formin'] = UserInForm()
 		return context
 
 	def post(self,request,*args,**kwargs):
@@ -69,6 +71,8 @@ class Category(ListView):
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
 		context['categories'] = CategoryModel.objects.all()
+		context['formup'] = UserUpForm()
+		context['formin'] = UserInForm()
 		return context
 	def get_ordering(self):
 		self.ordering = '-created'
@@ -161,4 +165,42 @@ class Order(ListView):
 class About(DetailView):
 	template_name = 'about.html'
 	model = ReadersclubModel
+	
+	def get_context_data(self,**kwargs):
+		context = super().get_context_data(**kwargs)
+		context['formup'] = UserUpForm()
+		context['formin'] = UserInForm()
+
+		return context
+
+
+class Contact(FormView):
+	template_name = 'contact.html'
+	success_url = 'app : contact'
+	form_class = ContactForm
+
+	def get_context_data(self,**kwargs):
+		context = super().get_context_data(**kwargs)
+		context['formup'] = UserUpForm()
+		context['formin'] = UserInForm()
+		context['readersclub'] = ReadersclubModel.objects.all()[0]
+
+		return context
+
+	def post(self,request,*args,**kwargs):
+		form = self.get_form()
+		if form.is_valid():
+			full_name = form.cleaned_data['full_name_contact']
+			email = form.cleaned_data['email_contact']
+			phone = form.cleaned_data['phone_contact']
+			message = form.cleaned_data['message_contact']
+
+			message = 'პიროვნება : {0} \nიმეილი : {1} \nტელეფონი : {2}  \nწერილი : {3}'.format(full_name,email,phone,message)
+			from_email = settings.EMAIL_HOST_USER
+			subject = _("საკონტაქტო წერილი")
+
+
+			send_mail(subject,message,from_email,['tsotnesharvadze@gmail.com'])
+			return redirect('app:contact')
 		
+		return self.form_invalid(form)

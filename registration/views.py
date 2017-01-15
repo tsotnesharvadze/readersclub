@@ -10,7 +10,7 @@ from .util import get_code,get_id
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from .models import Account
-from django.views.generic import View
+from django.views.generic import View ,DetailView
 from django.http.response import Http404
 from app.models import SlideModel , BookModel
 
@@ -185,48 +185,52 @@ class new_password(View):
 		}
 		return render(request, "registration/new_password.html", context)
 
-class Profile(View):
-	
-	def post(self, request, *args, **kwargs):
-		user = request.user #Account.objects.get(id=int(kwargs["user_id"]))
-		if 'cancel' in request.POST:
-			pass
-		elif 'bio' in request.POST:
-			form=UserForm(request.POST,request.FILES, instance=user)
-			if form.is_valid():
-				user = form.save()
-				return redirect("registration:profile",user.id)
-			else:
-				return render(request, "registration/profile.html", self.get_context_data(
-					form=form))
-		elif 'pass' in request.POST:
-			passform=New_passwordForm(request.POST)
-			if passform.is_valid():
-				password = passform.cleaned_data['password']
-				confpassword = passform.cleaned_data['confpassword']
-				if password == confpassword:
+class Profile(DetailView):
+	template_name = 'user_profile.html'
+	model = Account
 
-					user = request.user
-					if user.is_active:
-						user.set_password(password)
-						user.save()
-						user=authenticate(email=user.email,password=password)
-						login(request,user)
 
-			else:
-				return HttpResponse(_("გთხოვთ სწორად შეავსოთ ველები .. "))
-		return redirect("registration:profile",user.id)
 
-	def get(self, request, *args, **kwargs) :
-		user_prof = get_object_or_404(Account, id=int(kwargs["user_id"]))
-		form = UserForm(instance=user_prof)
-		context = {
-			'user_prof':user_prof,
-			"form" : form,
-			'passform':New_passwordForm(),
-			}
+	# def post(self, request, *args, **kwargs):
+	# 	user = request.user #Account.objects.get(id=int(kwargs["user_id"]))
+	# 	if 'cancel' in request.POST:
+	# 		pass
+	# 	elif 'bio' in request.POST:
+	# 		form=UserForm(request.POST,request.FILES, instance=user)
+	# 		if form.is_valid():
+	# 			user = form.save()
+	# 			return redirect("registration:profile",user.id)
+	# 		else:
+	# 			return render(request, "registration/profile.html", self.get_context_data(
+	# 				form=form))
+	# 	elif 'pass' in request.POST:
+	# 		passform=New_passwordForm(request.POST)
+	# 		if passform.is_valid():
+	# 			password = passform.cleaned_data['password']
+	# 			confpassword = passform.cleaned_data['confpassword']
+	# 			if password == confpassword:
+
+	# 				user = request.user
+	# 				if user.is_active:
+	# 					user.set_password(password)
+	# 					user.save()
+	# 					user=authenticate(email=user.email,password=password)
+	# 					login(request,user)
+
+	# 		else:
+	# 			return HttpResponse(_("გთხოვთ სწორად შეავსოთ ველები .. "))
+	# 	return redirect("registration:profile",user.id)
+
+	# def get(self, request, *args, **kwargs) :
+	# 	user_prof = get_object_or_404(Account, id=int(kwargs["user_id"]))
+	# 	form = UserForm(instance=user_prof)
+	# 	context = {
+	# 		'user_prof':user_prof,
+	# 		"form" : form,
+	# 		'passform':New_passwordForm(),
+	# 		}
 			
-		return render(request, "registration/profile.html", context)
+	# 	return render(request, "registration/profile.html", context)
 
 
 def email_send_for_new_password(request):

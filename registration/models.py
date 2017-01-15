@@ -62,6 +62,7 @@ class Account(AbstractBaseUser, PermissionsMixin):
 
     basket = models.ForeignKey('app.BasketModel', null=True, verbose_name=_('კალათა'), blank=True)
 
+    address = models.ManyToManyField('AddressModel', verbose_name=_('მისამართი'),blank=True)
     
     # username = models.CharField(verbose_name=_("მეტსახელი"),max_length=40, unique=True)
     # tagline = models.CharField(max_length=140, blank=True)    
@@ -95,6 +96,76 @@ class Account(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = _('ექაუნთი')
         verbose_name_plural = _('ექაუნთები')
+
+class AddressModel(models.Model):
+    citychoice = (
+        ('0',_('--------')),
+        ('1',_('თბილისი')),
+        ('2',_('ბათუმი')),
+        ('3','ქუთაისი'),
+        ('4','რუსთავი'),
+        ('5','გორი'),
+        ('6','ზუგდიდი'),
+        ('7','ფოთი'),
+        ('8','ხაშური'),
+        ('9','სამტრედია'),
+        ('10', 'სენაკი'),
+        ('11', 'ზესტაფონი'),
+        ('12', 'მარნეული'),
+        ('13', 'თელავი'),
+        ('14', 'ახალციხე'),
+        ('15', 'ქობულეთი'),
+        ('16', 'ოზურგეთი'),
+        ('17', 'კასპი'),
+        ('18', 'ჭიათურა'),
+        ('19', 'წყალტუბო'),
+        ('20', 'საგარეჯო'),
+        ('21', 'გარდაბანი'),
+        ('22', 'ბორჯომი'),
+        ('23', 'ტყიბული'),
+        ('25','ბოლნისი'),
+        ('26', 'ახალქალაქი'),
+        ('27', 'გურჯაანი'),
+        ('28', 'მცხეთა'),
+        ('29', 'ყვარელი'),
+        ('30', 'ახმეტა'),
+        ('31', 'ქარელი'),
+        ('32', 'ლანჩხუთი'),
+        ('33', 'დუშეთი'),
+        ('34', 'საჩხერე'),
+        ('35', 'დედოფლისწყარო'),
+        ('36', 'ლაგოდეხი'),
+        ('37', 'ნინოწმინდა'),
+        ('38', 'აბაშა'),
+        ('39', 'წნორი'),
+        ('40', 'თერჯოლა'),
+        ('41', 'მარტვილი'),
+        ('42', 'ხობი'),
+        ('43', 'წალენჯიხა'),   
+        ('44', 'ვანი'),
+        ('45', 'ბაღდათი'),
+        ('46', 'ვალე'),
+        ('47', 'თეთრიწყარო'), 
+        ('48', 'დმანისი'),
+        ('49', 'ონი'),
+        ('50', 'წალკა'),
+        ('51','ამბროლაური'),
+        ('52', 'სიღნაღი'),
+        ('53', 'ცაგერი'),
+        ('54', 'ჯვარი'),
+    )
+    city = models.CharField(max_length=2,default = 0, choices = citychoice , verbose_name = _('ქალაქი'))
+    street = models.CharField(max_length=150, default ='', verbose_name=_('ქუჩა'))
+    comment = models.CharField(max_length=500 , default = '', verbose_name=_('კომენატრი'))
+    user = models.CharField(max_length = 20, default= '' , verbose_name = _('პიროვნება'))
+
+    def __str__(self):
+        for city in self.citychoice:
+            if city[0] == self.city:
+                return city[1] +' | '+ self.street +' | '+ self.user 
+    class Meta:
+        verbose_name = _('მისამართი')
+        verbose_name_plural = _('მისამართები')    
 
 
 

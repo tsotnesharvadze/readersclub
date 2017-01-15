@@ -43,6 +43,8 @@
 
     <!-- <link rel="stylesheet" href="{% static 'font-larisome/css/font-larisome.min.css' %}"> -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <script src="https://use.fontawesome.com/4870cf3dfe.js"></script>
+    <script src="{% static 'js/jquery.js' %}"></script>
 	{% block head %}
 	{% endblock head %}
 
@@ -64,7 +66,23 @@
 
 
 {% endblock content %}
+       {% if not user.is_authenticated %}
+        <!-- Call to Action Section -->
+        <div class="well">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias, expedita, saepe, vero rerum deleniti beatae veniam harum neque nemo praesentium cum alias asperiores commodi.</p>
+                </div>
+                <div class="col-md-6">
+                    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">{% trans 'გაიარეთ ავტორიზაცია ან დარეგისტრირდით' %}</button>
 
+                    <!-- Modal -->
+                </div>
+            </div>
+        </div>
+
+        <hr>
+        {% endif %}                           
 
 
                     <div class="modal fade" id="myModal" role="dialog">
@@ -86,7 +104,7 @@
                                                 <br>
                                                 <br>
                                                 <form  action="{% url 'registration:sing' %}" method="POST">{% csrf_token %}
-                                                    {{form.as_p}}
+                                                    {{formup.as_p}}
                                                     <button type="submit" name='singup' class="btn btn-primary">რეგისტრაცია</button>
                                                 </form>
                                             </div>
@@ -95,7 +113,7 @@
                                                 <br>
                                                 <br>
                                                 <form action="{% url 'registration:sing' %}" method="POST">{% csrf_token %}
-                                                {{form1.as_p}}
+                                                {{formin.as_p}}
                                                     <div class="form-group">
                                                         <div class="offset-sm-2 col-sm-10">
                                                             <button type="submit" name='singin' class="btn btn-primary">შესვლა</button>
@@ -112,6 +130,7 @@
                         </div>
                     </div>
         <!-- Footer -->
+
         <footer>
             <div class="row">
                 <div class="col-lg-12 text-center">

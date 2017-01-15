@@ -114,6 +114,12 @@ class OrderModel(AbsTime):
 class ReadersclubModel(AbsTime):
 	about_img = models.ImageField(verbose_name=_("სურათი (ჩვენს შესახებ)"),upload_to='about_img/')
 	about_content = RichTextField(_('აღწერა (ჩვენს შესახებ)'), default='')
+	contact_address = models.CharField(_('მისამართი (კონტაქტი)'), max_length=200, null= True,  default='')
+	contact_phone = models.CharField(_('ტელეფონი (კონტაქტი)'), max_length=20, null= True,  default='')
+	contact_email = models.EmailField(verbose_name=_("ემაილი (კონტაქტი)"),unique=True ,default = '') 
+	contact_fb_url =  models.CharField(verbose_name=_("facebook (კონტაქტი)"),max_length=200,null=True),
+	contact_twitter_url =  models.CharField(verbose_name=_("twitter (კონტაქტი)"),max_length=200,null=True),
+	contact_google_url =  models.CharField(verbose_name=_("google plus (კონტაქტი)"),max_length=200,null=True),
 	def __str__(self):
 		return 'რიდერსქლაბი'
 	class Meta:
