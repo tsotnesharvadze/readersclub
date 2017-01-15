@@ -67,7 +67,50 @@
 
 
 
+                    <div class="modal fade" id="myModal" role="dialog">
+                        <div class="modal-dialog">
 
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <section id="forms">
+                                        <ul class="tab">
+                                            <li><a href="javascript:void(0)" class="tablinks active" onclick="openCity(event, 'registration')">{% trans 'რეგისტრაცია' %}</a></li>
+                                            <li><a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'login')">შესვლა</a></li>
+
+                                            <div id="registration" class="tabcontent" style="display:block;">
+                                                <br>
+                                                <br>
+                                                <br>
+                                                <form  action="{% url 'registration:sing' %}" method="POST">{% csrf_token %}
+                                                    {{form.as_p}}
+                                                    <button type="submit" name='singup' class="btn btn-primary">რეგისტრაცია</button>
+                                                </form>
+                                            </div>
+                                            <div id="login" class="tabcontent">
+                                                <br>
+                                                <br>
+                                                <br>
+                                                <form action="{% url 'registration:sing' %}" method="POST">{% csrf_token %}
+                                                {{form1.as_p}}
+                                                    <div class="form-group">
+                                                        <div class="offset-sm-2 col-sm-10">
+                                                            <button type="submit" name='singin' class="btn btn-primary">შესვლა</button>
+                                                            <a type="button" href="{% url 'registration:email_send_for_new_password'  %}" class="btn btn-primary">{% trans 'დაგავიწყდა პაროლი?' %}</a>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+
+                                        </ul>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
         <!-- Footer -->
         <footer>
             <div class="row">

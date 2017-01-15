@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 # from django.utils.translation import get_language
 from django.views.generic import TemplateView ,DetailView , ListView
 from .forms import BookModelForm 
-from .models import SlideModel , BookModel ,CategoryModel , BasketModel ,OrderModel,BasketLine
+from .models import SlideModel , BookModel ,CategoryModel , BasketModel ,OrderModel,BasketLine,ReadersclubModel
 from registration.forms import UserUpForm ,UserInForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # from registration.models import Account
@@ -124,13 +124,6 @@ class Basket(ListView):
 								})
 
 
-
-
-
-
-
-
-
 class Order(ListView):
 	template_name = 'order_placement.html'
 	model = BasketModel
@@ -162,3 +155,10 @@ class Order(ListView):
 
 
 		return render(request ,template_name =  'success.html')
+
+
+
+class About(DetailView):
+	template_name = 'about.html'
+	model = ReadersclubModel
+		

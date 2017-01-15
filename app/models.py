@@ -111,6 +111,26 @@ class OrderModel(AbsTime):
 
 
 
+class ReadersclubModel(AbsTime):
+	about_img = models.ImageField(verbose_name=_("სურათი (ჩვენს შესახებ)"),upload_to='about_img/')
+	about_content = RichTextField(_('აღწერა (ჩვენს შესახებ)'), default='')
+	def __str__(self):
+		return 'რიდერსქლაბი'
+	class Meta:
+		verbose_name = _('რიდერსქლაბი')
+		verbose_name_plural = _('რიდერსქლაბი')
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 @receiver(post_save, sender=CategoryModel)

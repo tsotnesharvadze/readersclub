@@ -14,6 +14,7 @@ urlpatterns = [
 	url(r'^category/(?P<slug>[-\w\W]+)/$',views.Category.as_view() , name = 'slug_category'),
 	url(r'^basket/$',views.Basket.as_view() , name = 'basket'),
 	url(r'^basket/order/' , views.Order.as_view() , name = 'order'),
+	url(r'^about/(?P<pk>[0-9]+)/$' ,views.About.as_view(), name = 'about'),
 	# url(r'^success/$ , )
 
 
